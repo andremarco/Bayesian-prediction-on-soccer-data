@@ -1,0 +1,26 @@
+model{
+  for (i in 1:number_match){ 	
+    # stochastic component
+    x[i]~dpois(lambda1[i])       
+    y[i]~dpois(lambda2[i])       
+    # link and linear predictor
+    log(lambda1[i])<-  home + a[ ht[i] ] + d[ at[i] ]
+    log(lambda2[i])<-  a[ at[i] ] + d[ ht[i] ]
+  }
+  # STZ constraints		
+  a[1]<-  -sum( a[2:20] )
+  d[1]<-  -sum( d[2:20] )
+  #
+
+
+  # prior distributions
+ 
+  home~dnorm(0,0.001)
+
+
+  for (i in 2:number_teams){
+    a[i]~dnorm(0,0.01)
+    d[i]~dnorm(0,0.01)
+  }
+  
+}
